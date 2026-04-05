@@ -1,0 +1,10 @@
+openpyxl>=3.1.0
+python-dotenv>=1.0.0
+requests>=2.31.0
+langcodes[data]>=3.3.0
+
+# Install only the engine(s) you need:
+# anthropic>=0.25.0   (claude engine)
+# openai>=1.0.0       (openai engine)
+# deepl>=1.17.0       (deepl engine)
+# google and azure engines use requests (already listed above)

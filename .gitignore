@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+
+# IDE / Claude
+.claude/
+
+# Excel files
+*.xlsx
+*.xlsx~
+~$*.xlsx
