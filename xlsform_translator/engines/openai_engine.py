@@ -1,10 +1,18 @@
-"""OpenAI (ChatGPT) translation backend."""
+"""
+OpenAI translation engine.
+
+Requires: pip install openai
+Env var:  OPENAI_API_KEY
+"""
 
 import json
 import re
 
 from .base import BaseBackend
 
+# System prompt sent on every API call. The [P1]-style instruction is critical:
+# it tells the model to treat placeholder tokens as opaque literals so that
+# XLSForm variable references and HTML tags survive translation intact.
 _BASE_SYSTEM = (
     "You are a professional survey translator. "
     "You will receive a JSON array of strings to translate. "
@@ -15,6 +23,7 @@ _BASE_SYSTEM = (
 
 
 class OpenAIEngine(BaseBackend):
+    """Translation engine backed by the OpenAI Chat Completions API."""
 
     def __init__(self, api_key: str, model: str = "gpt-4o-mini"):
         from openai import OpenAI
@@ -22,6 +31,12 @@ class OpenAIEngine(BaseBackend):
         self._model = model
 
     def translate_batch(self, strings: list, target_language: str, context: str = "") -> list:
+        """
+        Send one API call with up to BATCH_SIZE strings and return translations.
+
+        If context is provided it is prepended to the system prompt, which
+        improves terminology consistency for domain-specific surveys.
+        """
         system = _BASE_SYSTEM
         if context:
             system = f"Context: {context}\n\n" + system
@@ -40,6 +55,7 @@ class OpenAIEngine(BaseBackend):
             ],
         )
         text = response.choices[0].message.content.strip()
+        # Extract the JSON array even if the model wraps it in extra text.
         match = re.search(r"\[[\s\S]*\]", text)
         if not match:
             raise ValueError("Response contains no JSON array")

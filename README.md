@@ -1,6 +1,6 @@
 # xlsform-translator
 
-A command-line tool that connects to you prefered AI (Claude, OpenAI, Google Translate, DeepL, Azure Translato) and translates XLSForm survey files using AI. It reads an Excel-based XLSForm, translates all user-facing text columns into a target language, and writes a new Excel file with the added language columns.
+A command-line tool that connects to your prefered AI (Claude, OpenAI, Google Translate, DeepL, Azure Translato) and translates XLSForm survey files using AI. It reads an Excel-based XLSForm, translates all user-facing text columns into a target language, and writes a new Excel file with the added language columns.
 
 Compatible with **SurveyCTO**, **ODK Collect**, and **ArcGIS Survey123**. Other data collection environments relying on XLSForm should be compatible.
 
@@ -123,10 +123,10 @@ If your form only has plain column names, rename them to include the language be
 The role of AI in this tool is deliberately narrow. The program does not ask the AI to interpret, summarise, or reason about your form. It simply sends **batches of plain strings** to the translation API and receives translated strings back, the same way you would use a translation service manually, just automated and at scale. The process uses very few tokens.
 
 Specifically:
-- **No content is generated** — the AI only translates what is already there
-- **XLSForm logic is never touched** — skip logic, constraints, calculations, and variable references are extracted before translation and restored verbatim afterwards
-- **Every response is validated locally** — the program checks that the number of strings matches, that no translations are empty, and that all protected tokens (`${variable}`, HTML tags) are intact. If any check fails, the batch is retried; if retries are exhausted, the original source text is kept
-- **No hallucination risk on form logic**, because variable references and tags are replaced with neutral tokens (e.g. `[P1]`) before being sent to the AI, there is nothing for the model to misinterpret or fabricate
+- **No content is generated** : the AI only translates what is already there
+- **XLSForm logic is never touched** : skip logic, constraints, calculations, and variable references are extracted before translation and restored verbatim afterwards
+- **Every response is validated locally** : the program checks that the number of strings matches, that no translations are empty, and that all protected tokens (`${variable}`, HTML tags) are intact. If any check fails, the batch is retried; if retries are exhausted, the original source text is kept
+- **No hallucination risk on form logic** : because variable references and tags are replaced with neutral tokens (e.g. `[P1]`) before being sent to the AI, there is nothing for the model to misinterpret or fabricate
 
 The AI's only job is the translation of human-readable text. Everything else is handled locally in Python.
 

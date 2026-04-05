@@ -1,5 +1,5 @@
 """
-Output Excel construction: insert new language columns and write the file.
+Output Excel construction: append translated language columns and save.
 """
 
 import re
@@ -10,10 +10,14 @@ from .parser import ParsedForm, TRANSLATABLE_SHEETS
 
 def _resolve_target_language_string(target_language: str, language_style: str) -> str:
     """
-    Canonicalize the user-supplied target language string using langcodes (local, no API).
-    - language_style "with_code"    → "Spanish (es)"
-    - language_style "without_code" → "Spanish"
-    Falls back to the raw user-supplied string if langcodes cannot resolve it.
+    Produce the canonical language string for the new column headers.
+
+    Mirrors the style of the existing source-language columns:
+      language_style "with_code"    → "Spanish (es)"
+      language_style "without_code" → "Spanish"
+
+    Uses langcodes for name/code resolution. Falls back to the raw
+    user-supplied string if langcodes cannot recognise it.
     """
     try:
         import langcodes
@@ -24,7 +28,7 @@ def _resolve_target_language_string(target_language: str, language_style: str) -
             return f"{name} ({code})"
         return name
     except Exception:
-        # Fallback: use the string as-is
+        # langcodes couldn't resolve the string — use it as supplied.
         if language_style == "with_code":
             if re.search(r"\([a-z]{2,3}\)$", target_language.strip()):
                 return target_language.strip()
@@ -33,10 +37,15 @@ def _resolve_target_language_string(target_language: str, language_style: str) -
 
 
 def _build_target_column_name(source_col_name: str, resolved_target: str, language_style: str) -> str:
-    """Derive the new column header for the target language."""
+    """
+    Derive the header for the new target-language column.
+
+    Example: source "label::French (fr)" + target "Spanish (es)" → "label::Spanish (es)"
+    """
     base = source_col_name.split("::")[0]
     if language_style == "with_code":
         return f"{base}::{resolved_target}"
+    # Strip any trailing code before building the plain-style header.
     name_only = re.split(r"\s*\(", resolved_target)[0].strip()
     return f"{base}::{name_only}"
 
@@ -49,13 +58,24 @@ def build_output(
     verbose: bool = False,
 ) -> int:
     """
-    Append translated columns at the end of each translatable sheet and save.
-    Returns the number of cells written.
+    Write translated columns to the workbook and save it to output_path.
 
-    Columns are appended rather than inserted so that Excel table definitions
-    (ListObjects) are never disturbed — inserting mid-table causes openpyxl to
-    leave table metadata out of sync, which Excel reports as corruption.
-    XLSForm platforms read columns by name, so position does not matter.
+    New columns are always appended at the end of each sheet (sheet.max_column + 1)
+    rather than inserted next to their source column. This is intentional:
+    openpyxl's insert_cols() shifts cell references but does not update the
+    tableColumn metadata inside Excel Table (ListObject) definitions, which
+    causes Excel to report the file as corrupt. Since XLSForm platforms
+    identify columns by header name rather than position, append-only is safe.
+
+    Args:
+        parsed: ParsedForm returned by parse_form().
+        cells: The same CellRef list, with .translated_text populated.
+        target_language: Target language name or code (used to build headers).
+        output_path: Where to write the output .xlsx file.
+        verbose: If True, prints skipped-column notices to stdout.
+
+    Returns:
+        Number of cells written to the output file.
     """
     resolved_target = _resolve_target_language_string(target_language, parsed.language_style)
     if verbose:
@@ -63,6 +83,7 @@ def build_output(
 
     wb = parsed.workbook
 
+    # Build a fast lookup: (sheet_name, row, col_index) → translated text
     translation_lookup = {
         (c.sheet_name, c.row, c.col_index): c.translated_text
         for c in cells
@@ -78,6 +99,7 @@ def build_output(
 
         source_cols = parsed.translatable_columns.get(sheet_name, [])
         source_lang_cols = [c for c in source_cols if c.language == parsed.source_language]
+        # Process columns left-to-right to produce a consistent column order.
         source_lang_cols.sort(key=lambda c: c.col_index)
 
         if not source_lang_cols:

@@ -1,5 +1,11 @@
 """
-Batched translation via Claude API with validation and retry logic.
+DEPRECATED — this module is no longer used.
+
+Translation logic has been moved to the xlsform_translator/engines/ package,
+which provides a common BaseBackend class and separate engine modules for
+Claude, OpenAI, Google Translate, DeepL, and Azure Translator.
+
+This file is kept for reference only and can be safely deleted.
 """
 
 import json

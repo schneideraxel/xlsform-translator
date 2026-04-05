@@ -1,5 +1,11 @@
 """
 CLI entry point for xlsform-translator.
+
+Invoked as:
+    python main.py <input_file> -s <source> -t <target> -e <engine> [options]
+
+Or, if installed as a package:
+    xlsform-translator <input_file> -s <source> -t <target> -e <engine> [options]
 """
 
 import argparse
@@ -15,6 +21,12 @@ from .writer import build_output
 
 
 def build_default_output_path(input_path: str, target_language: str) -> str:
+    """
+    Generate the default output file path when --output is not specified.
+
+    Takes the first word of the target language and appends it to the input
+    stem, e.g. survey.xlsx + "Spanish" → survey_spanish.xlsx.
+    """
     p = Path(input_path)
     lang_slug = target_language.strip().split()[0].lower()
     return str(p.parent / f"{p.stem}_{lang_slug}{p.suffix}")

@@ -1,21 +1,31 @@
 """
-Translation engine factory.
-Each engine is imported lazily so missing optional dependencies
-only raise errors when that specific engine is requested.
+Translation engine registry and factory.
+
+Each engine module is imported lazily, so a missing optional dependency
+(e.g. 'anthropic' not installed) only raises an error when that specific
+engine is actually requested — not at import time.
 """
 
 import os
 import sys
 
 
+# All supported engine names, in the order they appear in --help output.
 ENGINES = ("claude", "openai", "google", "deepl", "azure")
 
 
 def get_engine(name: str):
     """
-    Instantiate and return the requested translation engine.
-    Reads credentials from environment variables.
-    Exits with a clear error message if a required key is missing.
+    Return an instantiated translation engine for the given name.
+
+    Reads the required API key(s) from environment variables and exits with
+    a clear error message if any required variable is missing.
+
+    Args:
+        name: One of the strings in ENGINES.
+
+    Returns:
+        An instance of the corresponding engine class (a BaseBackend subclass).
     """
     name = name.lower()
 
@@ -50,6 +60,7 @@ def get_engine(name: str):
 
 
 def _require_env(var: str, engine_name: str) -> str:
+    """Exit with a user-friendly message if an expected env variable is absent."""
     val = os.environ.get(var)
     if not val:
         print(

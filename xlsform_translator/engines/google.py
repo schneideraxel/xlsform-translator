@@ -1,4 +1,11 @@
-"""Google Cloud Translate backend (v2 REST API)."""
+"""
+Google Cloud Translate engine (Translation API v2, REST).
+
+No additional package required beyond 'requests' (already a core dependency).
+Env var: GOOGLE_TRANSLATE_API_KEY
+
+Language codes: https://cloud.google.com/translate/docs/languages
+"""
 
 import sys
 import requests
@@ -9,15 +16,22 @@ _ENDPOINT = "https://translation.googleapis.com/language/translate/v2"
 
 
 class GoogleTranslateEngine(BaseBackend):
+    """Translation engine backed by the Google Cloud Translation API v2."""
 
     def __init__(self, api_key: str):
         self._api_key = api_key
 
     def translate_batch(self, strings: list, target_language: str, context: str = "") -> list:
+        """
+        Translate a batch of strings via a single POST request.
+
+        'format: text' is set explicitly so the API does not HTML-encode
+        special characters in its response (e.g. '&' → '&amp;').
+        """
         if context:
             print(
                 "  [info] Google Translate does not support translation context. "
-                "The --context option is ignored for this backend.",
+                "The --context option is ignored for this engine.",
                 file=sys.stderr,
             )
 

@@ -1,10 +1,18 @@
-"""Claude (Anthropic) translation backend."""
+"""
+Claude (Anthropic) translation engine.
+
+Requires: pip install anthropic
+Env var:  ANTHROPIC_API_KEY
+"""
 
 import json
 import re
 
 from .base import BaseBackend
 
+# System prompt sent on every API call. The [P1]-style instruction is critical:
+# it tells the model to treat placeholder tokens as opaque literals so that
+# XLSForm variable references and HTML tags survive translation intact.
 _BASE_SYSTEM = (
     "You are a professional survey translator. "
     "You will receive a JSON array of strings to translate. "
@@ -15,12 +23,19 @@ _BASE_SYSTEM = (
 
 
 class ClaudeEngine(BaseBackend):
+    """Translation engine backed by Anthropic's Claude API."""
 
     def __init__(self, api_key: str):
         import anthropic
         self._client = anthropic.Anthropic(api_key=api_key)
 
     def translate_batch(self, strings: list, target_language: str, context: str = "") -> list:
+        """
+        Send one API call with up to BATCH_SIZE strings and return translations.
+
+        If context is provided it is prepended to the system prompt, which
+        improves terminology consistency for domain-specific surveys.
+        """
         system = _BASE_SYSTEM
         if context:
             system = f"Context: {context}\n\n" + system
@@ -38,6 +53,7 @@ class ClaudeEngine(BaseBackend):
             messages=[{"role": "user", "content": user_msg}],
         )
         text = response.content[0].text.strip()
+        # Extract the JSON array even if the model wraps it in extra text.
         match = re.search(r"\[[\s\S]*\]", text)
         if not match:
             raise ValueError("Response contains no JSON array")
