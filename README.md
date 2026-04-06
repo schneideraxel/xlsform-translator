@@ -46,8 +46,9 @@ Then install the package for the engine you want to use:
 pip install anthropic # Claude
 pip install openai # OpenAI
 pip install deepl # DeepL
-# Google Translate and Azure use requests, which is already included
 ```
+
+Google Translate and Azure use 'requests', which is already included
 
 ---
 
