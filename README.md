@@ -156,14 +156,14 @@ Uses **GPT-4o Mini** model. LLM-based, context-aware, produces clear and natural
 ---
 
 ### Google Translate (`google`)
-Uses the **Google Cloud Translation API v2**. A dedicated, high-throughput translation service with very broad language support. Does not understand context. Does **not** support the `--context` argument. Generous free-tier API.
+Uses the **Google Cloud Translation API v2**. A dedicated, high-throughput translation service with very broad language support. Does not understand context. Does not support the `--context` argument. Generous free-tier API.
 
 **Languages:** 135 languages, including many African languages (Hausa, Yoruba, Igbo, Amharic, Somali, Swahili, Zulu, and more). Check the [full list](https://cloud.google.com/translate/docs/languages).
 
 ---
 
 ### DeepL (`deepl`)
-Uses the **DeepL Translation API**. Widely considered the most accurate dedicated translation service for European languages. Does **not** support the `--context` argument.
+Uses the **DeepL Translation API**. Widely considered the most accurate dedicated translation service for European languages. Does not support the `--context` argument.
 
 **Languages:** 33 languages, primarily European (English, French, Spanish, German, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese, and others). Check the [full list](https://support.deepl.com/hc/en-us/articles/360019925219).
 
@@ -172,7 +172,7 @@ Uses the **DeepL Translation API**. Widely considered the most accurate dedicate
 ### Azure Translator (`azure`)
 Uses the **Azure Cognitive Services Translator v3** REST API. Microsoft's dedicated translation service, competitive with Google Translate in breadth of language support. Requires both an API key and a region identifier in your `.env` file.
 
-Does **not** support the `--context` argument.
+Does not support the `--context` argument.
 
 **Languages:** 130 languages. Check the [full list](https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support).
 
