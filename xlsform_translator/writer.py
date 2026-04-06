@@ -1,3 +1,7 @@
+### Output writer : builds translated column headers and appends them to the workbook
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Output Excel construction: append translated language columns and save.
 """
@@ -28,7 +32,7 @@ def _resolve_target_language_string(target_language: str, language_style: str) -
             return f"{name} ({code})"
         return name
     except Exception:
-        # langcodes couldn't resolve the string — use it as supplied.
+        # langcodes couldn't resolve the string : use it as supplied.
         if language_style == "with_code":
             if re.search(r"\([a-z]{2,3}\)$", target_language.strip()):
                 return target_language.strip()
@@ -113,7 +117,7 @@ def build_output(
             )
             if new_col_name in existing_headers:
                 if verbose:
-                    print(f"  Skipping '{new_col_name}' in '{sheet_name}' — already exists.")
+                    print(f"  Skipping '{new_col_name}' in '{sheet_name}' : already exists.")
                 continue
 
             new_col_idx = sheet.max_column + 1
