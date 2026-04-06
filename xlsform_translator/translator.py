@@ -1,5 +1,9 @@
+### DEPRECATED : superseded by the engines/ package, kept for reference only
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
-DEPRECATED — this module is no longer used.
+DEPRECATED : this module is no longer used.
 
 Translation logic has been moved to the xlsform_translator/engines/ package,
 which provides a common BaseBackend class and separate engine modules for
@@ -19,7 +23,7 @@ SYSTEM_PROMPT = (
     "You are a professional survey translator. "
     "You will receive a JSON array of strings to translate. "
     "Return ONLY a valid JSON array of the same length, in the same order. "
-    "Preserve any [P1], [P2], ... tokens exactly as-is — do not translate or remove them. "
+    "Preserve any [P1], [P2], ... tokens exactly as-is : do not translate or remove them. "
     "Do not add explanations, markdown, or anything outside the JSON array."
 )
 
