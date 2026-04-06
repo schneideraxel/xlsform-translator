@@ -1,3 +1,7 @@
+### Claude engine : translates batches via the Anthropic API using claude-haiku
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Claude (Anthropic) translation engine.
 
@@ -17,7 +21,7 @@ _BASE_SYSTEM = (
     "You are a professional survey translator. "
     "You will receive a JSON array of strings to translate. "
     "Return ONLY a valid JSON array of the same length, in the same order. "
-    "Preserve any [P1], [P2], ... tokens exactly as-is — do not translate or remove them. "
+    "Preserve any [P1], [P2], ... tokens exactly as-is : do not translate or remove them. "
     "Do not add explanations, markdown, or anything outside the JSON array."
 )
 
