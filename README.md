@@ -7,8 +7,8 @@ This command-line tool translates XLSForm surveys using AI services (Claude, Ope
 Compatible with SurveyCTO, ODK Collect, and ArcGIS Survey123. Other data collection platforms using XLSForm should work as well.
 
 **Notes**: 
-- AI translation is a first draft, always have a fluent speaker review and validate the translated form before deployment.
-- Requires an API key from your chosen translation engine.
+- AI translation is a first draft, always have a fluent speaker review and validate the translated form before deployment
+- Requires an API key from your chosen translation engine
 
 
 ---
@@ -18,8 +18,8 @@ Compatible with SurveyCTO, ODK Collect, and ArcGIS Survey123. Other data collect
 - Translates `label`, `hint`, `guidance_hint`, `constraint_message`, and `required_message` columns in both `survey` and `choices` sheets
 - Supports five translation engines: Claude, OpenAI, Google Translate, DeepL, and Azure Translator
 - Preserves XLSForm variable references (`${variable}`), HTML tags, and other non-translatable content automatically
-- Validates every translated batch and retries automatically on failure; falls back to source text if all retries are exhausted so the output file is always complete
-- Optional domain context to improve translation quality on LLM-based engines
+- Validates every translated batch and retries automatically on failure; falls back to source text if all retries are exhausted
+- Optional domain context to improve translation quality on LLM-based engines (Claude and OpenAI)
 
 ---
 
