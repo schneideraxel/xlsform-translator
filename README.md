@@ -88,8 +88,8 @@ python main.py <input_file> \
 | `--target-language` | `-t` | ✓ | Language to translate into, e.g. `English`, `Wolof` |
 | `--engine` | `-e` | ✓ | Translation engine: `claude`, `openai`, `google`, `deepl`, `azure` |
 | `--context` | `-c` | | Domain context to guide LLM engines (claude, openai only) |
-| `--output` | `-o` | | Output file path (default: `<input>_<lang>.xlsx`) |
-| `--verbose` | `-v` | | Print per-batch progress and warnings |
+| `--output` | `-o` | | Output file path (default: `<input>_<language>.xlsx`) |
+| `--verbose` | `-v` | | Print progress and warnings |
 
 ### Examples
 
