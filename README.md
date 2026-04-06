@@ -156,7 +156,7 @@ Uses **GPT-4o Mini** model. LLM-based, context-aware, produces clear and natural
 ---
 
 ### Google Translate (`google`)
-Uses the **Google Cloud Translation API v2**. A dedicated, high-throughput translation service with very broad language support. Does not understand context. Does **not** support the `--context` argument. Generous free-tier!
+Uses the **Google Cloud Translation API v2**. A dedicated, high-throughput translation service with very broad language support. Does not understand context. Does **not** support the `--context` argument. Generous free-tier API.
 
 **Languages:** 135 languages, including many African languages (Hausa, Yoruba, Igbo, Amharic, Somali, Swahili, Zulu, and more). Check the [full list](https://cloud.google.com/translate/docs/languages).
 
