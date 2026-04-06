@@ -76,7 +76,7 @@ def _missing_package(package: str, extra: str) -> None:
     """Exit with an install hint when an optional engine package is not installed."""
     print(
         f"Error: the '{package}' package is required for this engine but is not installed.\n"
-        f"Run:  pip install \".[{extra}]\"",
+        f"Run:  pip install {package}",
         file=sys.stderr,
     )
     sys.exit(1)
