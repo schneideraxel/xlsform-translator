@@ -4,9 +4,11 @@ Translate your survey form into any language in just a few seconds!
 
 A command-line tool that connects to your prefered AI (Claude, OpenAI, Google Translate, DeepL, Azure Translato) and translates XLSForm survey files using AI. It reads an Excel-based XLSForm, translates all user-facing text columns into a target language, and writes a new Excel file with the added language columns.
 
-Compatible with **SurveyCTO**, **ODK Collect**, and **ArcGIS Survey123**. Other data collection environments relying on XLSForm should be compatible.
+Compatible with SurveyCTO, ODK Collect, and ArcGIS Survey123. Other data collection environments relying on XLSForm should be compatible.
 
-> Advice: AI translation is a first draft, always have a fluent speaker review and validate the translated form before deployment.
+**Notes**: 
+- AI translation is a first draft, always have a fluent speaker review and validate the translated form before deployment.\
+- Requires an API key from your chosen translation engine
 
 
 ---
@@ -24,26 +26,26 @@ Compatible with **SurveyCTO**, **ODK Collect**, and **ArcGIS Survey123**. Other 
 ## Requirements
 
 - Python 3.9+
-- An XLSForm where language columns already include language names in the header, e.g. `label::French` or `label::French (fr)`
+- An XLSForm where language columns already include language names in the header, eg: `label::French` or `label::French (fr)`
 
 ---
 
 ## Installation
 
 ```bash
-git clone https://github.com/your-username/xlsform-translator.git
+git clone https://github.com/schneideraxel/xlsform-translator.git
 cd xlsform-translator
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+source venv/bin/activate # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
 Then install the package for the engine you want to use:
 
 ```bash
-pip install anthropic            # Claude
-pip install openai               # OpenAI
-pip install deepl                # DeepL
+pip install anthropic # Claude
+pip install openai # OpenAI
+pip install deepl # DeepL
 # Google Translate and Azure use requests, which is already included
 ```
 
@@ -54,11 +56,11 @@ pip install deepl                # DeepL
 Create a `.env` file at the project root. Only the key for your chosen engine is required:
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...
-OPENAI_API_KEY=sk-...
-GOOGLE_TRANSLATE_API_KEY=...
-DEEPL_API_KEY=...
-AZURE_TRANSLATOR_KEY=...
+ANTHROPIC_API_KEY= ...
+OPENAI_API_KEY= ...
+GOOGLE_TRANSLATE_API_KEY= ...
+DEEPL_API_KEY= ...
+AZURE_TRANSLATOR_KEY= ...
 AZURE_TRANSLATOR_REGION=eastus
 ```
 
@@ -108,7 +110,7 @@ python main.py survey.xlsx -s fr -t en -e google --verbose
 
 ## XLSForm requirements
 
-Your form's columns **must already include language names** in the header. The tool will fail with a descriptive error if it finds plain column names without a language suffix.
+Your form's columns must already include language names*in the header.
 
 | Accepted ✓ | Rejected ✗ |
 |---|---|
@@ -122,7 +124,7 @@ If your form only has plain column names, rename them to include the language be
 
 ## How AI engines are used
 
-The role of AI in this tool is deliberately narrow. The program does not ask the AI to interpret, summarise, or reason about your form. It simply sends **batches of plain strings** to the translation API and receives translated strings back, the same way you would use a translation service manually, just automated and at scale. The process uses very few tokens.
+The role of AI in this tool is deliberately narrow. The program does not ask the AI to interpret, summarise, or reason about your form. It simply sends batches of plain strings to the translation API and receives translated strings back, the same way you would use a translation service manually, just automated and at scale. The process uses very few tokens.
 
 Specifically:
 - **No content is generated** : the AI only translates what is already there
@@ -134,7 +136,7 @@ The AI's only job is the translation of human-readable text. Everything else is 
 
 ---
 
-## Available translation engines
+## Supported translation engines
 
 ### Claude (`claude`)
 Uses Anthropic's **Claude Haiku** model. LLM-based, understands context and produces natural, fluent translations.
