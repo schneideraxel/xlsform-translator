@@ -35,12 +35,18 @@ def get_engine(name: str):
 
     if name == "claude":
         key = _require_env("ANTHROPIC_API_KEY", "Claude")
-        from .claude import ClaudeEngine
+        try:
+            from .claude import ClaudeEngine
+        except ImportError:
+            _missing_package("anthropic", "claude")
         return ClaudeEngine(api_key=key)
 
     if name == "openai":
         key = _require_env("OPENAI_API_KEY", "OpenAI")
-        from .openai_engine import OpenAIEngine
+        try:
+            from .openai_engine import OpenAIEngine
+        except ImportError:
+            _missing_package("openai", "openai")
         return OpenAIEngine(api_key=key)
 
     if name == "google":
@@ -50,7 +56,10 @@ def get_engine(name: str):
 
     if name == "deepl":
         key = _require_env("DEEPL_API_KEY", "DeepL")
-        from .deepl_engine import DeepLEngine
+        try:
+            from .deepl_engine import DeepLEngine
+        except ImportError:
+            _missing_package("deepl", "deepl")
         return DeepLEngine(api_key=key)
 
     if name == "azure":
@@ -60,6 +69,16 @@ def get_engine(name: str):
         return AzureTranslatorEngine(api_key=key, region=region)
 
     print(f"Error: unknown engine '{name}'. Choose from: {', '.join(ENGINES)}", file=sys.stderr)
+    sys.exit(1)
+
+
+def _missing_package(package: str, extra: str) -> None:
+    """Exit with an install hint when an optional engine package is not installed."""
+    print(
+        f"Error: the '{package}' package is required for this engine but is not installed.\n"
+        f"Run:  pip install \".[{extra}]\"",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 
