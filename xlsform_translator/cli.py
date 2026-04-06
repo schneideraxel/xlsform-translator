@@ -1,3 +1,7 @@
+### Command-line interface : argument parsing, orchestration, and user-facing output
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 CLI entry point for xlsform-translator.
 
