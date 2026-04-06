@@ -1,3 +1,7 @@
+### Google Translate engine : translates batches via the Google Cloud Translation API v2
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Google Cloud Translate engine (Translation API v2, REST).
 
