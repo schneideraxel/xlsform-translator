@@ -1,12 +1,16 @@
+### XLSForm parser : column classification, source language matching, and placeholder tokenization
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 XLSForm parsing: column classification, source language matching,
 and placeholder tokenization/detokenization.
 
 Parsing happens in three stages:
-1. Column classification — identify which columns hold translatable text.
-2. Source language matching — find the column language that corresponds to
+1. Column classification : identify which columns hold translatable text.
+2. Source language matching : find the column language that corresponds to
    what the user specified via --source-language.
-3. Cell collection — iterate over all matched columns, tokenize placeholders,
+3. Cell collection : iterate over all matched columns, tokenize placeholders,
    and return a flat list of CellRef objects ready for translation.
 """
 
@@ -32,9 +36,9 @@ BASE_TRANSLATABLE = {
 }
 
 # Matches content that must not be translated:
-#   ${variable}  — XLSForm variable references
-#   <tag>        — HTML tags used for rich text formatting
-#   #{variable}  — ODK-style calculation references
+#   ${variable}  : XLSForm variable references
+#   <tag>        : HTML tags used for rich text formatting
+#   #{variable}  : ODK-style calculation references
 PLACEHOLDER_RE = re.compile(r"\$\{[^}]+\}|<[^>]+>|#\{[^}]+\}")
 
 
@@ -197,8 +201,8 @@ def _match_source_language(translatable_columns: dict, user_language: str) -> Op
     (e.g. "French (fr)"), or None if no match is found.
 
     Matching is attempted in two passes:
-    1. Case-insensitive exact string match — fastest and most reliable.
-    2. IETF code comparison via langcodes — allows "fr" to match "French (fr)",
+    1. Case-insensitive exact string match : fastest and most reliable.
+    2. IETF code comparison via langcodes : allows "fr" to match "French (fr)",
        or "French" to match "French (FR)".
     """
     available = _all_language_variants(translatable_columns)
