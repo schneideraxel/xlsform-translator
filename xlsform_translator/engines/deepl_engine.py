@@ -1,3 +1,7 @@
+### DeepL engine : translates batches via the DeepL API using the official Python SDK
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 DeepL translation engine (official deepl-python SDK).
 
