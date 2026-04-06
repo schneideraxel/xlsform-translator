@@ -1,5 +1,7 @@
 # xlsform-translator
 
+Translate your survey form into any language in just a few seconds!
+
 A command-line tool that connects to your prefered AI (Claude, OpenAI, Google Translate, DeepL, Azure Translato) and translates XLSForm survey files using AI. It reads an Excel-based XLSForm, translates all user-facing text columns into a target language, and writes a new Excel file with the added language columns.
 
 Compatible with **SurveyCTO**, **ODK Collect**, and **ArcGIS Survey123**. Other data collection environments relying on XLSForm should be compatible.
