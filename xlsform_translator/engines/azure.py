@@ -1,3 +1,7 @@
+### Azure engine : translates batches via the Azure Cognitive Services Translator v3 REST API
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Azure Cognitive Services Translator engine (Translator v3 REST API).
 
