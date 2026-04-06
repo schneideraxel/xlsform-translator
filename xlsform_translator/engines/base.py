@@ -1,3 +1,7 @@
+### Base engine : shared batching, retry logic, validation, and fallback behaviour
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Abstract base class shared by all translation engines.
 
