@@ -1,9 +1,13 @@
+### Engine registry and factory : maps engine names to their classes and checks API keys
+### AS 🐚🫧🪼🪸
+### 05.04.2026 (Last update)
+
 """
 Translation engine registry and factory.
 
 Each engine module is imported lazily, so a missing optional dependency
 (e.g. 'anthropic' not installed) only raises an error when that specific
-engine is actually requested — not at import time.
+engine is actually requested : not at import time.
 """
 
 import os
